@@ -1,0 +1,62 @@
+#include <iostream>
+#include <vector>
+#include <string>
+#include <fstream>
+using namespace std;
+
+class Cars{
+public:
+Cars(const string& model) : m_model(model){}
+virtual ~Cars() {}
+virtual void print_mod() = 0;
+
+const string& get_model() const { return m_model; }
+
+
+private:
+string m_model;
+};
+
+class Mercedes: public Cars {
+public:
+Mercedes(const string &model): Cars(model) {}
+virtual ~Mercedes() { print_mod(); }
+void print_mod() { cout « "Mercedes " « get_model() « endl; }
+};
+
+class Bentley: public Cars {
+public:
+Bentley(const string& model) : Cars(model) {}
+virtual ~Bentley() { print_mod(); }
+void print_mod() { cout « "Bentley " « get_model() « endl; }
+};
+
+class BMW : public Cars {
+public:
+BMW(const string& model) : Cars(model) {}
+virtual ~BMW() { print_mod(); }
+void print_mod() { cout « "BMW " « get_model() « endl; }
+
+};
+
+int main() {
+vector <shared_ptr <Cars> >car;//unique/weak
+fstream file;
+file.open("cars_for_laba.txt");
+if (file.is_open()) {
+string name,model;
+while (file » name » model) {
+if (name == "Mercedes")
+car.push_back(make_shared<Mercedes>(model));
+else if (name == "Bentley")
+car.push_back(make_shared<Bentley>(model));
+else if (name == "BMW")
+car.push_back(make_shared<BMW>(model));
+}
+}
+else
+cout « "file dont open(";
+file.close();
+
+
+return 0;
